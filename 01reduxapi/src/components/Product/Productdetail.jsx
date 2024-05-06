@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import { useParams } from "react-router-dom"; // Import useParams hook from React Router
+import axios from "axios"; // Import axios for making HTTP requests
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
+// Functional component for Product Detail page
 const ProductDetail = () => {
-  const params = useParams();
-  console.log(params);
-  const [product, setProduct] = useState(null);
+  const params = useParams(); // Get parameters from the URL
+
+  const [product, setProduct] = useState(null); // State to store product data
 
   useEffect(() => {
+    // Asynchronous function to fetch product data
     const fetchProduct = async () => {
       try {
+        // Send GET request to the Fake Store API to fetch product details based on productId
         const response = await axios.get(
           `https://fakestoreapi.com/products/${params.productId}`
         );
+        // Set product state with the fetched data
         setProduct(response.data);
       } catch (err) {
         console.log("Error fetching product:", err);
@@ -22,12 +26,13 @@ const ProductDetail = () => {
     };
 
     fetchProduct();
-  }, [params.productId]);
+  }, [params.productId]); // Dependency array to re-run useEffect when productId changes
 
   if (!product) {
-    return <div>Loading...</div>;
+    return <div className="text-center mt-5 ">Loading......🔃</div>;
   }
 
+  // Render product details once data is fetched
   return (
     <>
       <div>Product Detail Page for ID: {params.productId}</div>
